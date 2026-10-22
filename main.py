@@ -72,8 +72,16 @@ def main(page: ft.Page):
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
     def aggiungi_strumento(e):
-        tipo = input_tipo.value.strip()
-        marca = input_marca.value.strip()
+        #controllo che tipo e marca non siano nulli
+        try:
+            tipo = input_tipo.value.strip()
+            marca = input_marca.value.strip()
+            if tipo == '' or marca == '':
+                raise ValueError
+        except ValueError:
+            alert.show_alert(f"❌ Tipo e Marca non possono essere vuoti")
+            return
+
         # controllo che il valore di anno sia valido
         try:
             anno = int(input_anno.value)
@@ -82,9 +90,10 @@ def main(page: ft.Page):
         except ValueError, TypeError:
             alert.show_alert(f"❌ Anno deve essere un numero intero positivo")
             return
+
         # controllo che il valore di prezzo sia valido
         try:
-            prezzo = int(txtPrezzo.value)
+            prezzo = float(txtPrezzo.value)
             if prezzo < 0:
                 raise ValueError
         except ValueError, TypeError:
