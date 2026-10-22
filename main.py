@@ -67,8 +67,9 @@ def main(page: ft.Page):
 
     def riduciPrezzo(e):
         prezzoIniziale = txtPrezzo.value
-        txtPrezzo.value = prezzoIniziale - 10
-        txtPrezzo.update()
+        if prezzoIniziale > 0:                 #in questo modo sono sicuro che il prezzo non sarà mai negativo
+            txtPrezzo.value = prezzoIniziale - 10
+            txtPrezzo.update()
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
     def aggiungi_strumento(e):
@@ -91,14 +92,7 @@ def main(page: ft.Page):
             alert.show_alert(f"❌ Anno deve essere un numero intero positivo")
             return
 
-        # controllo che il valore di prezzo sia valido
-        try:
-            prezzo = float(txtPrezzo.value)
-            if prezzo < 0:
-                raise ValueError
-        except ValueError, TypeError:
-            alert.show_alert(f"❌ Prezzo deve essere un numero positivo")
-            return
+        prezzo = float(txtPrezzo.value) #sono sicuro che il prezzo non può essere negativo
 
         deposito.aggiungi_strumento(tipo, marca, anno, prezzo)
         aggiorna_lista_strumenti()
